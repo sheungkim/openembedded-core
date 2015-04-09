@@ -1,0 +1,34 @@
+From b5091089aa9c48574563ec6fd61b22e18e584d6a Mon Sep 17 00:00:00 2001
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 2 Apr 2015 16:16:41 +0300
+Subject: [PATCH] Remove includedir poisoning from configure.ac
+
+configure.ac tries to workaround pkg-config dropping the default include
+directories, but ends up poisoning the sysroot includedirs with system
+ones.
+
+Issue is filed upstream at
+https://bugzilla.gnome.org/show_bug.cgi?id=747445
+
+Upstream-Status: Submitted
+---
+ configure.ac | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 38126da..a6c1058 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -348,8 +348,7 @@ backend_immodules=
+ have_gio_unix=no
+ GDK_BACKENDS=
+ GDK_EXTRA_LIBS=
+-# expoxy.pc has Cflags: -I${includedir}, but pkg-config swallows that :-(
+-GDK_EXTRA_CFLAGS="-I${prefix}/include"
++GDK_EXTRA_CFLAGS=
+ GDK_WINDOWING=
+ PANGO_PACKAGES="pango pangocairo"
+ 
+-- 
+2.1.4
+

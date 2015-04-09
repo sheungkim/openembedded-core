@@ -4,11 +4,11 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
 
 SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
            file://hardcoded_libtool.patch \
-           file://fix-flags-for-native.patch \
+           file://Remove-includedir-poisoning-from-configure.ac.patch \
           "
 
-SRC_URI[md5sum] = "0d6d8f9f79132b3b47475d047b369b1c"
-SRC_URI[sha256sum] = "61d74eea74231b1ea4b53084a9d6fc9917ab0e1d71b69d92cbf60a4b4fb385d0"
+SRC_URI[md5sum] = "11c97ce2527956e0ddb5ad5b236e4572"
+SRC_URI[sha256sum] = "ce617318fe18092383cf6ed5d8c688a95a97f2d4c68481317a6a531e288c26ea"
 
 S = "${WORKDIR}/gtk+-${PV}"
 
