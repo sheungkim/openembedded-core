@@ -1,0 +1,41 @@
+From b736e90681e135e0cccb143a9ce8b7049e1ec0f0 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 6 Apr 2015 22:57:20 -0700
+Subject: [PATCH 1/4] Enable backtrace() API only when compiling for glibc
+
+Upstream-Status: Pending
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ src/log.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/log.c b/src/log.c
+index a693bd0..3bf9fcc 100644
+--- a/src/log.c
++++ b/src/log.c
+@@ -30,7 +30,9 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <syslog.h>
++#ifdef __GLIBC__
+ #include <execinfo.h>
++#endif
+ #include <dlfcn.h>
+ 
+ #include "connman.h"
+@@ -215,9 +217,9 @@ static void print_backtrace(unsigned int offset)
+ static void signal_handler(int signo)
+ {
+ 	connman_error("Aborting (signal %d) [%s]", signo, program_exec);
+-
++#ifdef __GLIBC__
+ 	print_backtrace(2);
+-
++#endif
+ 	exit(EXIT_FAILURE);
+ }
+ 
+-- 
+2.1.4
+

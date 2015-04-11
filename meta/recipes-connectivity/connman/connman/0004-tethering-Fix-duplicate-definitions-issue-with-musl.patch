@@ -1,0 +1,43 @@
+From 6c1854401b4888fbf420ceb7b1e18097b91fb488 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 6 Apr 2015 23:48:23 -0700
+Subject: [PATCH 4/4] tethering: Fix duplicate definitions issue with musl
+
+We just need this one define BRCTL_GET_VERSION
+from linux/if_bridge.h
+So lets define it if not defined already and remove
+including linux/if_bridge.h because it include's linux/in6.h
+which then conflicts with musl's netinet/in.h
+
+Upstream-Status: Pending
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ src/tethering.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/tethering.c b/src/tethering.c
+index c44cb36..62fce36 100644
+--- a/src/tethering.c
++++ b/src/tethering.c
+@@ -34,14 +34,15 @@
+ #include <string.h>
+ #include <fcntl.h>
+ #include <netinet/in.h>
+-#include <linux/if_bridge.h>
+ 
+ #include "connman.h"
+ 
+ #include <gdhcp/gdhcp.h>
+ 
+ #include <gdbus.h>
+-
++#ifndef BRCTL_GET_VERSION
++#define BRCTL_GET_VERSION 0
++#endif
+ #ifndef DBUS_TYPE_UNIX_FD
+ #define DBUS_TYPE_UNIX_FD -1
+ #endif
+-- 
+2.1.4
+
